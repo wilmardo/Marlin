@@ -57,6 +57,7 @@
 #define X_STOP_PIN                          PC0   // X-STOP
 #define Y_STOP_PIN                          PC1   // Y-STOP
 #define Z_STOP_PIN                          PC2   // Z-STOP
+#define Z2_STOP_PIN                         PD5   // Z2-STOP I/0 header pin 5
 
 //
 // Z Probe must be this pin
@@ -103,6 +104,10 @@
 #define Z_STEP_PIN                          PB0
 #define Z_DIR_PIN                           PC5
 
+#define Z2_DIR_PIN                          PD0  // I/O header pin 1
+#define Z2_STEP_PIN                         PD2  // I/O header pin 2
+#define Z2_ENABLE_PIN                       PD4  // I/O header pin 4
+
 #define E0_ENABLE_PIN                       PD1
 #define E0_STEP_PIN                         PB3
 #define E0_DIR_PIN                          PB4
@@ -116,6 +121,10 @@
   #define Y_HARDWARE_SERIAL  MSerial4
   #define Z_HARDWARE_SERIAL  MSerial4
   #define E0_HARDWARE_SERIAL MSerial4
+  // UART2 for fifth TMC2209 UART, 2 bits can only store four adresses
+  // fifth driver needs new UART
+  // reuse TFT header
+  #define Z2_HARDWARE_SERIAL MSerial2
 
   // Default TMC slave addresses
   #ifndef X_SLAVE_ADDRESS
@@ -129,6 +138,9 @@
   #endif
   #ifndef E0_SLAVE_ADDRESS
     #define E0_SLAVE_ADDRESS 3
+  #endif
+  #ifndef Z2_SLAVE_ADDRESS
+    #define Z2_SLAVE_ADDRESS  0
   #endif
 #endif
 
@@ -252,7 +264,7 @@
 
     #if ENABLED(CR10_STOCKDISPLAY)
 
-      #define BEEPER_PIN             EXP1_01_PIN
+      #define BEEPER_PIN             -1
       #define BTN_ENC                EXP1_02_PIN
 
       #define BTN_EN1                EXP1_03_PIN
